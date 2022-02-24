@@ -23,8 +23,11 @@ class BooksController < ApplicationController
 
   def edit
     @book = Book.find(params[:id])
-    @book.user
-    redirect_to books_path unless @book.user == current_user
+    if @book.user == current_user
+    render :edit
+    else
+    redirect_to books_path
+    end
   end
 
 
@@ -43,8 +46,12 @@ class BooksController < ApplicationController
 
    def destroy
      book = Book.find(params[:id])
+     if book.user == current_user
      book.destroy
      redirect_to books_path
+     else
+     render :index
+     end
    end
 
      # 投稿データのストロングパラメータ
